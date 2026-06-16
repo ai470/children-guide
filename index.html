@@ -29,6 +29,16 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+        html {
+            font-size: 17px;
+        }
+
+        @media (min-width: 640px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f6f2eb;
@@ -74,25 +84,46 @@
             }
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const prepositions = ["в", "на", "с", "у", "к", "о", "об", "от", "до", "по", "для", "при", "из", "за", "под", "над", "без", "про", "и", "а", "но", "или", "как", "все", "всё"];
+            const regex = new RegExp(`(^|[\\s()\"«\\-])(${prepositions.join('|')})\\s+`, 'gi');
+            const excludeTags = ['SCRIPT', 'STYLE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
+            
+            function walk(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const replaced = node.nodeValue.replace(regex, "$1$2\u00A0");
+                    if (replaced !== node.nodeValue) {
+                        node.nodeValue = replaced;
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE && !excludeTags.includes(node.tagName)) {
+                    for (let child of node.childNodes) {
+                        walk(child);
+                    }
+                }
+            }
+            walk(document.body);
+        });
+    </script>
 </head>
 
 <body class="antialiased selection:bg-accent/30 min-h-screen">
 
-    <!-- Hero Section -->
-    <section class="relative isolate overflow-hidden bg-[#F6F2EB]">
+    <!-- Hero Section (Титульный лист) -->
+    <section class="relative isolate overflow-hidden bg-[#F6F2EB] min-h-screen flex flex-col justify-center items-center text-center px-4">
         <!-- Decorative blobs -->
         <div class="pointer-events-none absolute inset-0">
             <div
-                class="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-[#DDBC86]/20 to-transparent blur-3xl">
+                class="absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-[#DDBC86]/30 to-transparent blur-3xl">
             </div>
             <div
-                class="absolute bottom-0 -left-48 h-[400px] w-[400px] rounded-full bg-gradient-to-tr from-[#0F2147]/10 to-transparent blur-3xl">
+                class="absolute bottom-0 -left-48 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-[#0F2147]/15 to-transparent blur-3xl">
             </div>
         </div>
 
-        <div class="mx-auto max-w-4xl px-4 pt-20 pb-16 relative z-10 w-full animate-fade-up">
+        <div class="max-w-5xl relative z-10 w-full animate-fade-up flex flex-col items-center">
             <span
-                class="inline-flex items-center gap-2 rounded-full border border-accent/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#7A531C] shadow-sm backdrop-blur mb-6">
+                class="inline-flex items-center gap-2 rounded-full border border-accent/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#7A531C] shadow-sm backdrop-blur mb-8">
                 <svg class="h-4 w-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
@@ -101,45 +132,51 @@
                 Актуально на 2026 год
             </span>
 
-            <h1 class="text-gradient text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl mb-6">
-                Деньги за детей:<br>
-                полный гайд по выплатам<br>
-                от рождения до 18 лет
+            <h1 class="text-gradient text-5xl font-extrabold leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl mb-8">
+                Деньги за детей: полный гайд по выплатам от рождения до 18 лет
             </h1>
 
-            <p class="max-w-2xl text-lg leading-relaxed text-secondary sm:text-xl mb-10">
+            <p class="max-w-xl text-lg leading-relaxed text-secondary sm:text-xl mb-12">
                 Все суммы указаны с учетом плановой индексации, итоговые цифры уточняйте в СФР и региональных
                 соцзащитах.
             </p>
 
-            <!-- Введение -->
-            <div class="glass rounded-3xl p-8 hover-lift shadow-md">
-                <h2 class="text-2xl font-bold text-primary mb-4">Введение</h2>
-                <p class="text-lg text-secondary leading-relaxed mb-6">
-                    Государство платит за детей больше, чем кажется. Но разобраться в уровнях поддержки сложно: пособия
-                    делятся на федеральные и региональные, меняются правила и возрасты. В этом гайде мы собрали полную
-                    линейку выплат: от первых недель беременности до 18-летия ребенка. Идём строго по возрастам.
-                </p>
-                <div class="bg-gradient-to-r from-accent/20 to-transparent rounded-2xl p-6 border-l-0 sm:border-l-4 border-accent [hyphens:auto]">
-                    <p class="font-bold text-primary mb-2 text-lg">Самый частый вопрос: «Я&nbsp;потерялся в&nbsp;пособиях до&nbsp;3, от&nbsp;3&nbsp;до&nbsp;7, от&nbsp;8&nbsp;до&nbsp;17…»</p>
-                    <p class="text-secondary"><strong>Ответ:</strong> с&nbsp;2023&nbsp;года почти всё заменило Единое&nbsp;пособие. Оно одно на&nbsp;детей от&nbsp;0&nbsp;до&nbsp;17&nbsp;лет. Мы&nbsp;его тоже разберем.</p>
-                </div>
-            </div>
+            <a href="#introduction"
+                class="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-semibold text-white shadow-lg hover:bg-secondary transition-all hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 mb-6 cursor-pointer">
+                Читать гайд
+                <svg class="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
         </div>
     </section>
 
     <!-- Main Content -->
     <main class="mx-auto max-w-4xl px-4 pt-12 pb-16 space-y-24 animate-fade-up" style="animation-delay: 0.2s;">
 
+        <!-- Введение -->
+        <section id="introduction" class="glass rounded-3xl p-6 sm:p-8 hover-lift shadow-md">
+            <h2 class="text-2xl font-bold text-primary mb-4">Введение</h2>
+            <p class="text-lg text-secondary leading-relaxed mb-6">
+                Государство платит за детей больше, чем кажется. Но разобраться в уровнях поддержки сложно: пособия
+                делятся на федеральные и региональные, меняются правила и возрасты. В этом гайде мы собрали полную
+                линейку выплат: от первых недель беременности до 18-летия ребенка. Идём строго по возрастам.
+            </p>
+            <div class="bg-gradient-to-r from-accent/20 to-transparent rounded-2xl p-4 sm:p-6 border-l-0 sm:border-l-4 border-accent [hyphens:auto]">
+                <p class="font-bold text-primary mb-2 text-lg">Самый частый вопрос: «Я потерялся в пособиях до 3, от 3 до 7, от 8 до 17…»</p>
+                <p class="text-secondary"><strong>Ответ:</strong> с 2023 года почти всё заменило Единое пособие. Оно одно на детей от 0 до 17 лет. Мы его тоже разберем.</p>
+            </div>
+        </section>
+
         <!-- Часть 1 -->
         <section>
             <div class="border-l-4 border-accent pl-5 mb-10">
                 <h2 class="text-3xl font-bold text-primary sm:text-4xl">ДО РОЖДЕНИЯ <span
-                        class="font-normal text-secondary text-2xl sm:text-3xl">(беременность)</span></h2>
+                        class="block sm:inline font-normal text-secondary text-2xl sm:text-3xl">(беременность)</span></h2>
             </div>
 
             <div class="grid gap-8 md:grid-cols-2">
-                <article class="rounded-3xl bg-white p-8 shadow-lg border border-muted hover-lift">
+                <article class="rounded-3xl bg-white p-6 sm:p-8 shadow-lg border border-muted hover-lift">
                     <h3 class="text-xl font-bold text-primary mb-4">Пособие по беременности и родам («декретные»)</h3>
                     <p class="text-sm font-bold uppercase tracking-wider text-[#7A531C] mb-3">Кто получает:</p>
                     <ul class="space-y-2 text-secondary mb-6">
@@ -162,7 +199,7 @@
                     </ul>
                     <p class="text-secondary mb-4"><strong class="text-primary">Срок:</strong> обычно с 30 недель (с 28
                         – при двойне).</p>
-                    <div class="bg-[#F6F2EB] rounded-2xl p-5 border border-muted">
+                    <div class="bg-[#F6F2EB] rounded-2xl p-4 sm:p-5 border border-muted">
                         <p class="font-bold text-primary mb-2">Сумма:</p>
                         <ul class="text-secondary text-sm space-y-1.5">
                             <li>• 100% среднего заработка за 2 предыдущих года</li>
@@ -173,7 +210,7 @@
                 </article>
 
                 <article
-                    class="rounded-3xl bg-white p-8 shadow-lg border border-muted hover-lift">
+                    class="rounded-3xl bg-white p-6 sm:p-8 shadow-lg border border-muted hover-lift">
                     <div>
                         <h3 class="text-xl font-bold text-primary mb-4">За раннюю постановку на учёт</h3>
                         <p class="text-secondary mb-6"><strong class="text-primary">Условие:</strong> встать на учёт в
@@ -182,7 +219,7 @@
 
                     <div class="mt-6">
                         <div
-                            class="bg-gradient-to-br from-accent/20 to-transparent rounded-2xl p-6 border border-accent/30 mb-6 flex flex-col items-center justify-center text-center">
+                            class="bg-gradient-to-br from-accent/20 to-transparent rounded-2xl p-4 sm:p-6 border border-accent/30 mb-6 flex flex-col items-center justify-center text-center">
                             <p class="font-bold text-primary mb-1">Сумма:</p>
                             <p class="text-3xl font-bold text-[#7A531C]">≈ 1 000 ₽</p>
                             <p class="text-sm text-[#7A531C] mt-1">(разово)</p>
@@ -201,11 +238,11 @@
         <section>
             <div class="border-l-4 border-accent pl-5 mb-10">
                 <h2 class="text-3xl font-bold text-primary sm:text-4xl">РОЖДЕНИЕ <span
-                        class="font-normal text-secondary text-2xl sm:text-3xl">(разовые выплаты)</span></h2>
+                        class="block sm:inline font-normal text-secondary text-2xl sm:text-3xl">(разовые выплаты)</span></h2>
             </div>
 
             <div class="space-y-10">
-                <article class="rounded-3xl bg-white p-8 shadow-lg border border-muted hover-lift">
+                <article class="rounded-3xl bg-white p-6 sm:p-8 shadow-lg border border-muted hover-lift">
                     <h3 class="text-2xl font-bold text-primary mb-4">Единовременное пособие при рождении</h3>
                     <p class="text-secondary mb-4 leading-relaxed">
                         Единовременное пособие при рождении ребенка положено всем, независимо от семейного положения,
@@ -219,13 +256,13 @@
 
                     <div class="grid md:grid-cols-2 gap-4">
                         <div
-                            class="bg-gradient-to-br from-accent/15 to-transparent rounded-2xl border border-accent/30 p-5">
+                            class="bg-gradient-to-br from-accent/15 to-transparent rounded-2xl border border-accent/30 p-4 sm:p-5">
                             <p class="text-sm font-bold uppercase tracking-wider text-[#7A531C] mb-2">Сумма:</p>
                             <p class="text-2xl font-bold text-[#7A531C]">≈ 27 500 – 28 000 ₽</p>
                             <p class="text-xs text-secondary mt-2">В 2026 году сумма — до 28 450 руб. При рождении двух
                                 и более детей выплата положена на каждого.</p>
                         </div>
-                        <div class="bg-[#F6F2EB] rounded-2xl border border-muted p-5 flex flex-col justify-center">
+                        <div class="bg-[#F6F2EB] rounded-2xl border border-muted p-4 sm:p-5 flex flex-col justify-center">
                             <p class="text-sm font-bold uppercase tracking-wider text-[#7A531C] mb-2">Кто выплачивает:
                             </p>
                             <p class="text-secondary">СФР работающему родителю (или любому, если оба не работают)</p>
@@ -234,7 +271,7 @@
                 </article>
 
                 <article
-                    class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-[#1a3568] p-8 text-white hover-lift shadow-xl">
+                    class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-[#1a3568] p-6 sm:p-8 text-white hover-lift shadow-xl">
                     <div
                         class="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-accent/20 to-transparent rounded-bl-full">
                     </div>
@@ -246,17 +283,17 @@
                         </p>
 
                         <div class="space-y-4 mb-8">
-                            <div class="bg-white/10 rounded-2xl p-5 backdrop-blur border border-white/10">
+                            <div class="bg-white/10 rounded-2xl p-4 sm:p-5 backdrop-blur border border-white/10">
                                 <p><strong class="text-accent text-lg">728 921,9 ₽</strong> — на первого ребенка,
                                     рожденного или усыновленного с 2020 года. + <strong>234 321,2 ₽</strong> при
                                     появлении второго ребенка.</p>
                             </div>
-                            <div class="bg-white/10 rounded-2xl p-5 backdrop-blur border border-white/10">
+                            <div class="bg-white/10 rounded-2xl p-4 sm:p-5 backdrop-blur border border-white/10">
                                 <p><strong class="text-accent text-lg">728 921,9 ₽</strong> — на второго, третьего и
                                     любого следующего ребенка (2007-2019 г.р.), если до их появления права на маткапитал
                                     не было.</p>
                             </div>
-                            <div class="bg-white/10 rounded-2xl p-5 backdrop-blur border border-white/10">
+                            <div class="bg-white/10 rounded-2xl p-4 sm:p-5 backdrop-blur border border-white/10">
                                 <p><strong class="text-accent text-lg">963 243,2 ₽</strong> — на второго, третьего и
                                     любого следующего ребенка (с 2020 г.р.), если до их появления права на маткапитал не
                                     было.</p>
@@ -323,12 +360,12 @@
         <section>
             <div class="border-l-4 border-accent pl-5 mb-10">
                 <h2 class="text-3xl font-bold text-primary sm:text-4xl">ДО 1 ГОДА <span
-                        class="font-normal text-secondary text-2xl sm:text-3xl">(ежемесячные)</span></h2>
+                        class="block sm:inline font-normal text-secondary text-2xl sm:text-3xl">(ежемесячные)</span></h2>
             </div>
 
             <div class="space-y-10">
                 <!-- 3.1 -->
-                <article class="glass rounded-3xl p-8 hover-lift">
+                <article class="glass rounded-3xl p-6 sm:p-8 hover-lift">
                     <h3 class="text-xl font-bold text-primary mb-4">Пособие по уходу до 1.5 лет</h3>
                     <p class="text-secondary mb-4 leading-relaxed">
                         Ежемесячное пособие по уходу за ребёнком до 1,5 лет может получать любой работающий или
@@ -338,12 +375,12 @@
                         в декрете).
                     </p>
                     <div class="grid sm:grid-cols-2 gap-4 mt-6">
-                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-muted">
+                        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-muted">
                             <p class="font-bold text-primary mb-2">Размер пособия:</p>
                             <p class="text-2xl font-bold text-accent">40% от зарплаты</p>
                             <p class="text-sm text-secondary mt-1">но не меньше 10 103 ₽ и не больше 68 995 ₽</p>
                         </div>
-                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-muted">
+                        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-muted">
                             <p class="font-bold text-primary mb-2">Для неработающих и ИП:</p>
                             <p class="text-2xl font-bold text-primary">10 103 ₽</p>
                             <p class="text-sm text-secondary mt-1">Обычно назначается минимальная сумма.</p>
@@ -356,8 +393,8 @@
                 </article>
 
                 <!-- 3.2 -->
-                <article class="glass rounded-3xl p-8 hover-lift">
-                    <h3 class="text-xl font-bold text-primary mb-4">Выплата из маткапитала (до 3 лет)</h3>
+                <article class="glass rounded-3xl p-6 sm:p-8 hover-lift">
+                    <h3 class="text-xl font-bold text-primary mb-4">Выплата из маткапитала <span class="block sm:inline font-normal text-secondary text-base sm:text-lg">(до 3 лет)</span></h3>
                     <p class="text-secondary mb-4 leading-relaxed">
                         Это выплата для семей с низким доходом на любого ребёнка до 3 лет. Её размер равен прожиточному
                         минимуму на детей в вашем регионе (например, в Краснодарском крае это 17 636 ₽). Эта выплата
@@ -365,7 +402,7 @@
                     </p>
 
                     <div class="grid md:grid-cols-2 gap-4">
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-muted">
+                        <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-muted">
                             <p class="font-bold text-primary mb-3 uppercase text-sm tracking-wider">Условия:</p>
                             <ul class="space-y-3 text-secondary text-sm">
                                 <li class="flex items-center gap-3">
@@ -381,7 +418,7 @@
                             </ul>
                         </div>
 
-                        <div class="bg-primary text-white rounded-2xl p-6 shadow-sm flex flex-col justify-center">
+                        <div class="bg-primary text-white rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col justify-center">
                             <p class="font-bold text-accent mb-2">Сумма:</p>
                             <p class="text-2xl font-bold">1 ПМ на ребёнка</p>
                             <p class="text-white/70 mt-1 text-sm">(≈ 14 000 – 18 000 ₽)</p>
@@ -409,7 +446,7 @@
 
         <!-- Части 4 и 5 (Объединенные блоки) -->
         <div class="grid md:grid-cols-2 gap-8">
-            <section class="rounded-3xl bg-white p-8 shadow-sm border border-muted">
+            <section class="rounded-3xl bg-white p-6 sm:p-8 shadow-sm border border-muted">
                 <h2 class="text-2xl font-bold text-primary mb-5 border-l-4 border-destructive pl-4">ОТ 1 ДО 3 ЛЕТ</h2>
                 <p class="text-sm font-bold text-destructive mb-3 uppercase tracking-wider">«Провальная зона»</p>
                 <p class="text-secondary mb-4 leading-relaxed">Федеральных пособий от 1,5 до 3 лет – больше нет
@@ -422,7 +459,7 @@
                 </ul>
             </section>
 
-            <section class="rounded-3xl bg-white p-8 shadow-sm border border-muted">
+            <section class="rounded-3xl bg-white p-6 sm:p-8 shadow-sm border border-muted">
                 <h2 class="text-2xl font-bold text-primary mb-5 border-l-4 border-destructive pl-4">ОТ 3 ДО 7 ЛЕТ</h2>
                 <div class="bg-destructive/10 text-destructive p-4 rounded-2xl w-full mb-5">
                     <p class="font-bold">Уже не отдельное пособие</p>
@@ -438,7 +475,7 @@
         <section
             class="relative overflow-hidden rounded-[2rem] bg-gradient-to-b from-[#F6F2EB] to-white border border-accent/40 shadow-xl">
             <div class="absolute top-0 right-0 h-64 w-64 rounded-full bg-accent/10 blur-3xl"></div>
-            <div class="p-8 sm:p-12 relative z-10">
+            <div class="p-6 sm:p-8 md:p-12 relative z-10">
                 <div class="mb-10 text-center">
                     <p class="text-sm font-bold uppercase tracking-[0.3em] text-accent">Главное</p>
                     <h2 class="mt-3 text-3xl font-bold text-primary sm:text-5xl">Единое пособие</h2>
@@ -448,7 +485,7 @@
 
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Условия -->
-                    <div class="bg-white rounded-3xl p-6 shadow-md border border-muted hover-lift">
+                    <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-md border border-muted hover-lift">
                         <h3 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
                             <svg class="w-6 h-6 shrink-0 self-center inline-flex text-accent" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -481,7 +518,7 @@
                     </div>
 
                     <!-- Размер -->
-                    <div class="bg-primary text-white rounded-3xl p-6 shadow-md hover-lift">
+                    <div class="bg-primary text-white rounded-3xl p-4 sm:p-6 shadow-md hover-lift">
                         <h3 class="text-xl font-bold text-accent mb-6 flex items-center gap-2">
                             <svg class="w-6 h-6 shrink-0 self-center inline-flex text-accent" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -513,7 +550,7 @@
                 </div>
 
                 <div
-                    class="mt-8 bg-white/80 backdrop-blur rounded-2xl p-6 border border-accent/30 flex items-start gap-4 shadow-sm">
+                    class="mt-8 bg-white/80 backdrop-blur rounded-2xl p-4 sm:p-6 border border-accent/30 flex items-start gap-4 shadow-sm">
                     <svg class="w-6 h-6 shrink-0 self-center inline-flex text-primary" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -530,9 +567,9 @@
 
         <!-- Часть 7 и 8 (Таблицы) -->
         <div class="grid md:grid-cols-2 gap-8">
-            <section class="glass rounded-3xl p-6 md:p-8 hover-lift">
+            <section class="glass rounded-3xl p-5 sm:p-6 md:p-8 hover-lift">
                 <h2 class="text-2xl font-bold text-primary mb-6 border-l-4 border-accent pl-4">ОТ 3 ДО 18 ЛЕТ <span
-                        class="font-normal text-secondary text-lg">(региональные выплаты)</span></h2>
+                        class="block sm:inline font-normal text-secondary text-lg">(региональные выплаты)</span></h2>
                 <p class="text-secondary mb-6 text-sm">Каждый регион добавляет свои деньги.<br>Самые частые:</p>
 
                 <div class="overflow-hidden rounded-2xl border border-muted bg-white mb-4">
@@ -569,16 +606,16 @@
                 </p>
             </section>
 
-            <section class="glass rounded-3xl p-6 md:p-8 hover-lift">
+            <section class="glass rounded-3xl p-5 sm:p-6 md:p-8 hover-lift">
                 <h2 class="text-2xl font-bold text-primary mb-6 border-l-4 border-primary pl-4">ДЕТИ-ИНВАЛИДЫ <span
-                        class="font-normal text-secondary text-lg">(до 18 лет) – отдельный пакет</span></h2>
+                        class="block sm:inline font-normal text-secondary text-lg">(до 18 лет) – отдельный пакет</span></h2>
                 <p class="text-secondary mb-6 text-sm">Здесь выплаты заметно выше.<br></p>
 
                 <div class="overflow-hidden rounded-2xl border border-muted bg-white mb-4">
                     <table class="w-full text-sm">
                         <colgroup>
-                            <col style="width: 55%">
-                            <col style="width: 45%">
+                            <col class="w-[45%] sm:w-[55%]">
+                            <col class="w-[55%] sm:w-[45%]">
                         </colgroup>
                         <thead class="bg-primary text-white">
                             <tr>
@@ -618,10 +655,10 @@
         </div>
 
         <!-- Часть 9 -->
-        <section class="rounded-3xl bg-white p-8 shadow-lg border border-muted hover-lift">
+        <section class="rounded-3xl bg-white p-6 sm:p-8 shadow-lg border border-muted hover-lift">
             <div class="border-l-4 border-accent pl-5 mb-8">
                 <h2 class="text-3xl font-bold text-primary">Стандартный налоговый вычет <span
-                        class="font-normal text-secondary text-2xl">на детей</span></h2>
+                        class="block sm:inline font-normal text-secondary text-2xl">на детей</span></h2>
             </div>
             <p class="text-secondary mb-6 text-lg">
                 Работающие родители могут платить меньше НДФЛ, если оформят стандартный вычет на детей. Это сумма, на
@@ -630,17 +667,17 @@
 
             <div class="grid sm:grid-cols-3 gap-4 mb-8">
                 <div
-                    class="bg-gradient-to-b from-[#F6F2EB] to-white p-6 rounded-2xl border border-muted text-center shadow-sm">
+                    class="bg-gradient-to-b from-[#F6F2EB] to-white p-4 sm:p-6 rounded-2xl border border-muted text-center shadow-sm">
                     <p class="text-3xl font-bold text-primary mb-2">1 400 ₽</p>
                     <p class="text-sm text-secondary uppercase font-bold tracking-wider">на 1-го ребёнка</p>
                 </div>
                 <div
-                    class="bg-gradient-to-b from-[#F6F2EB] to-white p-6 rounded-2xl border border-muted text-center shadow-sm">
+                    class="bg-gradient-to-b from-[#F6F2EB] to-white p-4 sm:p-6 rounded-2xl border border-muted text-center shadow-sm">
                     <p class="text-3xl font-bold text-primary mb-2">2 800 ₽</p>
                     <p class="text-sm text-secondary uppercase font-bold tracking-wider">на 2-го ребёнка</p>
                 </div>
                 <div
-                    class="bg-gradient-to-b from-accent/20 to-white p-6 rounded-2xl border border-accent text-center shadow-sm">
+                    class="bg-gradient-to-b from-accent/20 to-white p-4 sm:p-6 rounded-2xl border border-accent text-center shadow-sm">
                     <p class="text-3xl font-bold text-primary mb-2">6 000 ₽</p>
                     <p class="text-sm text-secondary uppercase font-bold tracking-wider">на 3-го и далее</p>
                 </div>
@@ -682,14 +719,14 @@
         </section>
 
         <!-- Часть 10: Инструкция -->
-        <section class="bg-primary text-white rounded-[2rem] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+        <section class="bg-primary text-white rounded-[2rem] p-6 sm:p-8 md:p-12 shadow-2xl relative overflow-hidden">
             <div class="absolute -right-20 -bottom-20 h-80 w-80 rounded-full bg-accent/20 blur-[80px]"></div>
 
             <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6 relative z-10">ПОШАГОВАЯ ИНСТРУКЦИЯ:<br><span
                     class="text-accent">что делать прямо сейчас</span></h2>
 
             <div class="space-y-6 relative z-10">
-                <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-4 sm:p-6 border border-white/20">
                     <h3 class="text-xl font-bold text-accent mb-4 flex items-center gap-2"><svg
                             class="w-6 h-6 shrink-0 self-center inline-flex text-accent" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
@@ -703,7 +740,7 @@
                             </ol>
                 </div>
 
-                <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-4 sm:p-6 border border-white/20">
                     <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><svg
                             class="w-6 h-6 shrink-0 self-center inline-flex text-accent" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
@@ -718,7 +755,7 @@
                     </ul>
                 </div>
 
-                <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-4 sm:p-6 border border-white/20">
                     <h3 class="text-xl font-bold text-white/80 mb-4 flex items-center gap-2"><svg
                             class="w-6 h-6 shrink-0 self-center inline-flex text-accent" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
@@ -735,9 +772,9 @@
 
         <!-- Где оформлять и Чек-лист -->
         <div class="grid md:grid-cols-2 gap-8">
-            <section class="glass rounded-3xl p-6 md:p-8 hover-lift">
+            <section class="glass rounded-3xl p-5 sm:p-6 md:p-8 hover-lift">
                 <h2 class="text-2xl font-bold text-primary mb-6 border-l-4 border-accent pl-4">Где оформлять <span
-                        class="text-lg font-normal text-secondary">(без очередей)</span></h2>
+                        class="block sm:inline text-lg font-normal text-secondary">(без очередей)</span></h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <tbody>
@@ -780,9 +817,9 @@
                 </div>
             </section>
 
-            <section class="glass rounded-3xl p-6 md:p-8 border-t-4 border-t-accent hover-lift">
+            <section class="glass rounded-3xl p-5 sm:p-6 md:p-8 border-t-4 border-t-accent hover-lift">
                 <h2 class="text-2xl font-bold text-primary mb-6 border-l-4 border-accent pl-4">Быстрый чек-лист <span
-                        class="text-lg font-normal text-secondary">по возрастам</span></h2>
+                        class="block sm:inline text-lg font-normal text-secondary">по возрастам</span></h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <tbody class="divide-y divide-muted">
@@ -816,7 +853,7 @@
         </div>
 
         <!-- Ошибки -->
-        <section class="bg-white rounded-3xl p-8 shadow-lg border border-destructive/20 hover-lift">
+        <section class="bg-white p-6 sm:p-8 rounded-3xl shadow-lg border border-destructive/20 hover-lift">
             <h2 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
                 <span class="flex items-center justify-center shrink-0 bg-destructive/10  p-2 rounded-xl"><svg
                         class="w-6 h-6 shrink-0 self-center inline-flex text-destructive" fill="none"
@@ -874,17 +911,17 @@
         </section>
 
         <!-- Заключение -->
-        <section class="bg-white rounded-[2rem] p-8 sm:p-12 text-primary shadow-sm border border-accent/50 hover-lift">
+        <section class="bg-white rounded-[2rem] p-6 sm:p-8 md:p-12 text-primary shadow-sm border border-accent/50 hover-lift">
             <div class="border-l-4 border-accent pl-5 mb-8">
                 <h2 class="text-3xl font-bold text-primary">Заключение</h2>
             </div>
             <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-[#F6F2EB] p-6 rounded-2xl border border-muted hover-lift">
+                <div class="bg-[#F6F2EB] p-4 sm:p-6 rounded-2xl border border-muted hover-lift">
                     <p class="font-bold text-lg mb-2 text-primary">Если семья малообеспеченная:</p>
                     <p class="text-secondary">Ваша база = <strong>Единое пособие</strong>. Оно одно закрывает
                         потребности от 0 до 17 лет.</p>
                 </div>
-                <div class="bg-[#F6F2EB] p-6 rounded-2xl border border-muted hover-lift">
+                <div class="bg-[#F6F2EB] p-4 sm:p-6 rounded-2xl border border-muted hover-lift">
                     <p class="font-bold text-lg mb-2 text-primary">Если доход выше прожиточного:</p>
                     <p class="text-secondary">Ваши деньги = <strong>маткапитал + налоговая льгота + регион</strong>.</p>
                 </div>
